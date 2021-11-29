@@ -20,7 +20,7 @@ public class Producer1WithCallback {
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
 
         for (int i=0; i<10; ++i) {
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "Hello World" + Integer.toString(i));
+            ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "Hello World " + Integer.toString(i));
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {

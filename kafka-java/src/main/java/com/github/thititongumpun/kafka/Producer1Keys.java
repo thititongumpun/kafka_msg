@@ -20,9 +20,9 @@ public class Producer1Keys {
 
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
 
-        for (int i=0; i<10; ++i) {
+        for (int i=0; i<50; ++i) {
 
-            String topic = "first_topic";
+            String topic = "second_topic";
             String value = "Hello World" + Integer.toString(i);
             String key = "id_ " + Integer.toString(i);
 

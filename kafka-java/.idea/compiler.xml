@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="kafka-consumer-elasticsearch" />
+        <module name="kafka-producer-twtter" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kafka-twitter-producer" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

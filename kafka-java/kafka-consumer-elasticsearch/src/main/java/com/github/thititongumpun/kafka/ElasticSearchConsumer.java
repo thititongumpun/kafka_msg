@@ -1,6 +1,7 @@
 package com.github.thititongumpun.kafka;
 
 
+import com.google.gson.JsonParser;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -72,7 +73,6 @@ public class ElasticSearchConsumer {
     public static void main(String[] args) throws IOException {
         Logger logger = LoggerFactory.getLogger(ElasticSearchConsumer.class.getName());
         RestHighLevelClient client = createClient();
-        String jsonString = "{\"foo\": \"bar\"}";
 
         String topic = "twitter_tweets";
         KafkaConsumer<String, String> consumer = createConsumer(topic);
@@ -81,13 +81,16 @@ public class ElasticSearchConsumer {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 
             for (ConsumerRecord<String, String> record : records) {
+
+                String id = extractIdFromJson(record.value());
                 IndexRequest indexRequest = new IndexRequest(
                         "twitter",
-                        "tweets"
+                        "tweets",
+                        id
                 ).source(record.value(), XContentType.JSON);
                 IndexResponse indexResponse= client.index(indexRequest, RequestOptions.DEFAULT);
-
-                String id = indexResponse.getId();
+                logger.info(indexResponse.getId());
+//                String id = indexResponse.getId();
                 logger.info(id);
                 try {
                     Thread.sleep(1000);
@@ -96,5 +99,13 @@ public class ElasticSearchConsumer {
                 }
             }
         }
+    }
+
+    private static JsonParser jsonParser = new JsonParser();
+    private static String extractIdFromJson(String tweetJson) {
+        return jsonParser.parse(tweetJson)
+                .getAsJsonObject()
+                .get("id_str")
+                .getAsString();
     }
 }

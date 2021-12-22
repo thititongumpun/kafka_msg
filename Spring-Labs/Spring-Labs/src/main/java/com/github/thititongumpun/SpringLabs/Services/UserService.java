@@ -34,4 +34,9 @@ public class UserService {
     public List<String> getDummyData() {
         return Arrays.asList("one", "two", "three");
     }
+
+    public void remove(User user) {
+        log.debug("Remove user");
+        this.userRepository.delete(user);
+    }
 }

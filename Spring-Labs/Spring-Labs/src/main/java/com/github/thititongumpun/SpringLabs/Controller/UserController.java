@@ -29,4 +29,15 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return this.userService.create(user);
     }
+
+    @DeleteMapping("{userId}")
+    public long removeUser(@PathVariable long userId) {
+        this.userService.remove(userId);
+        return userId;
+    }
+
+    @PostMapping("update")
+    public User updateUser(@RequestBody User user) {
+        return this.userService.update(user);
+    }
 }

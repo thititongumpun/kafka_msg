@@ -35,8 +35,16 @@ public class UserService {
         return Arrays.asList("one", "two", "three");
     }
 
-    public void remove(User user) {
+    public void remove(long userId) {
         log.debug("Remove user");
-        this.userRepository.delete(user);
+        this.userRepository.deleteById(userId);
+    }
+
+    public User update(User user) {
+        log.debug("Update user");
+        if (user.getId() != null) {
+            this.userRepository.save(user);
+        }
+        return user;
     }
 }
